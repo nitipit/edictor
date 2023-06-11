@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Edictor</title>
+
+<link rel="stylesheet" href="base.css?v=10">
+<script defer src="base.js?v=10"></script>
+
+<script defer src="index.js?v=10"></script>
+
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3E2F6VT0Y0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3E2F6VT0Y0');
+</script>
+<body>
+
+<script defer src="include/sidebar/sidebar.js?v=10"></script>
+<el-sidebar showAt="1230px">
+    <div el="content">
+        <div el="header">
+            <div class="flex flex-center width-100">
+                <a href=""><h2 class="width: 100%">{ Edictor }</h2></a>
+            </div>
+            <a href="guide/"><el-icon name="open-book"></el-icon></a>
+        </div>
+        <el-sidebar-menu class="flat"><ul>
+            <li>
+                <a href="guide/#installation">Installation</a>
+            </li>
+            <li>
+                <a href="guide/#import">Import</a>
+                <ul>
+                    <li><a href="guide/#import.browser">Browser</a></li>
+                    <li><a href="guide/#import.node">Node</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="guide/#define">Define Models</a>
+            </li>
+            <li>
+                <a href="guide/#usage-examples">Usage Examples</a>
+            </li>
+            <li>
+                <a href="guide/#schema-validation">Schema Validation</a>
+                <ul>
+                    <li><a href="guide/#validation.1-schema-test">1. Schema Test</a></li>
+                    <li><a href="guide/#validation.2-schema-partial-test">2. Schema Partial Test</a></li>
+                    <li><a href="guide/#validation.3-schema-validation">3. Schema Validation</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="guide/#atomic-instance">Atomic Instance</a>
+                <ul>
+                    <li><a href="guide/#atomic-instance.retrieve-data">Retrieve Data</a></li>
+                    <li><a href="guide/#atomic-instance.retrieve-json">Retreive JSON</a></li>
+                    <li><a href="guide/#atomic-instance.atomic-update">Atomic Update</a></li>
+                </ul>
+            </li>
+        </ul></el-sidebar-menu>
+    </div>
+    <div el="overlay">
+    <!-- Overlay when show sidebar -->
+    </div>
+</el-sidebar>
+<el-sidebar-button><el-icon name="menu"></el-icon></el-sidebar-button>
+<div id="header" class="view flex">
+    <div class="container flex flex-center" style="max-width: 1200px;">
+        <div class="flex" el="left">
+            <img src="ring.webp?v=10">
+        </div>
+        <div class="flex" el="right">
+            <h1 class="width-100">{ Edictor }</h1>
+            <h3 class="width-100">0.4.0</h3>
+            <h2 class="width-100">
+                Modular & Atomic<br>
+                Javascript object<br>
+                definition and validation
+            </h2>
+            <div class="flex flex-center width-100">
+                <button el="guide" onclick="window.sidebar.show();">
+                    <el-icon name="open-book"></el-icon>
+                    Guide
+                </button>
+                <a class="button" href="https://github.com/nitipit/edictor">
+                    <button class="gray">
+                        <el-icon name="github"></el-icon>
+                        Github
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="data" class="bg-black">
+    <div class="container">
+        <video autoplay muted loop>
+            <source src="data-dashboard.webm" type="video/webm">
+        </video>
+        <div class="flex flex-center" style="margin-top: 2rem;">
+    <h2>"Use data with confidence"</h2>
+</div>
+<p><strong><code>{Edictor}</code></strong> is a Javascript essential tool to harness the power of data.
+It ensures data reliability, maintains quality,
+facilitates regulatory compliance, prevents errors. It can unlock the true value
+of data and gain a significant advantage in today's interconnected world.</p>
+
+    </div>
+</div>
+
+<div class="black-to-gray" style="height: 50vh;"></div>
+
+<div id="api" class="section">
+    <div class="container flex flex-center">
+        <div class="block-text">
+        <h2 class="width-100" style="text-align: center;">
+    APIs to help, not to mess things up.
+</h2>
+<p>No overwhelming APIs, the APIs are simple, easy to use.
+It's designed to enhance javascript expressions and statements
+to validate any kind of javascript object/data.</p>
+<p><el-title-code>typescript</el-title-code></p>
+<pre><code class="language-ts">declare class DefineField {
+    constructor(option = {required: false, grant: [], initial: undefined});
+    instance(...types); // Validate data instance to be one of provided types.
+    regexp(regexp_); // Validate data with regular expression.
+    assert(func, msg); // Validate with function to be true or false.
+    apply(func); // Validate data by using function and set value to returned data.
+    arrayOf(...validators); // Validate array data.
+    model(model_class); // Validate nested data.
+}
+</code></pre>
+
+        </div>
+    </div>
+</div>
+
+<div id="powerful" class="section" style="padding-top: 5rem;">
+    <div class="container flex flex-center">
+        <div class="block-text">
+        <h2>Flexible &amp; Powerful</h2>
+<div class="flex flex-center">
+    <img src="data-tree.webp">
+</div>
+<p><strong><code>{Edictor}</code></strong> support building schema for both nested and array data.
+Moreover, data pass through schema can becomes atomic instance
+which can validate itself in real-time when data has been changed,
+garantee that data is always valid.</p>
+<p>Example usage:</p>
+<p><el-title-code>javascript</el-title-code></p>
+<pre><code class="language-js">class Website extends Model {};
+
+Website.define({
+    title: defineField()
+        .instance(&quot;string&quot;)
+        .assert((title) =&gt; { title.length &lt;= 250 },
+            &quot;Title must have 250 characters or less&quot;),
+    url: defineField()
+        .instance(&quot;string&quot;)
+        .apply((value) =&gt; {new URL(value)})
+})
+
+/** Validate data, return validation result object */
+const result = Website.test({url: 'https://example.com'});
+
+/** Create atomic data instance */
+const website = new Website();
+website['url'] = 'https://example.com'; // valid.
+website['url'] = 'abc'; // =&gt; Throw errors.
+</code></pre>
+
+        </div>
+    </div>
+</div>
+
+<div id="array" class="section" style="padding-top: 5rem;">
+    <div class="container flex flex-center">
+        <div class="block-text">
+        <h2>Array &amp; Matrix</h2>
+<p>Array data validations can be done easily with <code>ArrayOf()</code> which provides
+APIs to validate data by instance type or validation function.
+Validations also support higher order array.</p>
+<p><el-title-code>javascript</el-title-code></p>
+<pre><code class="language-js">array1 = new ArrayOf('string', 'number');
+// Higher order array.
+array2 = new ArrayOf(['string', 'number'], ['string', 'boolean']);
+
+// These are valid arrays according to the schemas.
+array1.push(1, 2, 3, 'a', 'b', 'c');
+array2.push(['a',1], ['a',2], [true, false, 'abc']);
+</code></pre>
+<blockquote>
+<p><strong>{Edictor}</strong> is planned to have better APIs for matrix validations
+in the near future.</p>
+</blockquote>
+
+        </div>
+    </div>
+</div>
+
+<div id="error" class="section" style="padding-top: 5rem;">
+    <div class="container flex flex-center">
+        <div class="block-text">
+        <div class="flex flex-center width-100">
+<h2>Error Detection</h2>
+</div>
+<p>When data validations fail, <code>{Edictor}</code> throws errors and and provide
+useful information based on the structure of tesing data.</p>
+<p><el-title-code>typescript</el-title-code></p>
+<pre><code class="language-ts">interface ModelTestResult {
+    valid?: object, // stores valid data object
+    invalid?: object, // stores invalid data object
+    error?: object, // stores error information based on data structure.
+    errorMessage?: '' // error message
+}
+</code></pre>
+
+        </div>
+    </div>
+</div>
+
+<div id="try" class="section">
+    <div class="container flex flex-center" style="padding-top: 5rem;">
+        <div class="flex flex-center width-100">
+            <h2 style="text-align: center;">Try</h2>
+        </div>
+        <el-icon name="keyboard-shortcuts" style="font-size: 2em;"></el-icon>
+        <strong class="width-100">Shift+Ctrl+I</strong>
+        <p>You can try <code>{Edictor}</code> in your browser console. <code>Model, ArrayOf, defineField</code>
+has been imported and ready to use. For example:</p>
+<p><el-title-code>javascript</el-title-code></p>
+<pre><code class="language-js">class SomeModel extends Model {};
+SomeModel.define({}); // define your model.
+</code></pre>
+
+    </div>
+</div>
+
+
+<div style="min-height: 30vh;"></div>
+
+</body>
+</html>

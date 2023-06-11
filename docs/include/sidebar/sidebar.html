@@ -1,0 +1,49 @@
+<script defer src="include/sidebar/sidebar.js?v="></script>
+<el-sidebar showAt="1230px">
+    <div el="content">
+        <div el="header">
+            <div class="flex flex-center width-100">
+                <a href=""><h2 class="width: 100%">{ Edictor }</h2></a>
+            </div>
+            <a href="guide/"><el-icon name="open-book"></el-icon></a>
+        </div>
+        <el-sidebar-menu class="flat"><ul>
+            <li>
+                <a href="guide/#installation">Installation</a>
+            </li>
+            <li>
+                <a href="guide/#import">Import</a>
+                <ul>
+                    <li><a href="guide/#import.browser">Browser</a></li>
+                    <li><a href="guide/#import.node">Node</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="guide/#define">Define Models</a>
+            </li>
+            <li>
+                <a href="guide/#usage-examples">Usage Examples</a>
+            </li>
+            <li>
+                <a href="guide/#schema-validation">Schema Validation</a>
+                <ul>
+                    <li><a href="guide/#validation.1-schema-test">1. Schema Test</a></li>
+                    <li><a href="guide/#validation.2-schema-partial-test">2. Schema Partial Test</a></li>
+                    <li><a href="guide/#validation.3-schema-validation">3. Schema Validation</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="guide/#atomic-instance">Atomic Instance</a>
+                <ul>
+                    <li><a href="guide/#atomic-instance.retrieve-data">Retrieve Data</a></li>
+                    <li><a href="guide/#atomic-instance.retrieve-json">Retreive JSON</a></li>
+                    <li><a href="guide/#atomic-instance.atomic-update">Atomic Update</a></li>
+                </ul>
+            </li>
+        </ul></el-sidebar-menu>
+    </div>
+    <div el="overlay">
+    <!-- Overlay when show sidebar -->
+    </div>
+</el-sidebar>
+<el-sidebar-button><el-icon name="menu"></el-icon></el-sidebar-button>

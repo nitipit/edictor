@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Edictor</title>
+
+<link rel="stylesheet" href="../base.css?v=10">
+<script defer src="../base.js?v=10"></script>
+
+<script defer src="index.js?v=10"></script>
+
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3E2F6VT0Y0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3E2F6VT0Y0');
+</script>
+<body>
+
+
+<script defer src="../include/sidebar/sidebar.js?v=10"></script>
+<el-sidebar showAt="1230px">
+    <div el="content">
+        <div el="header">
+            <div class="flex flex-center width-100">
+                <a href="../"><h2 class="width: 100%">{ Edictor }</h2></a>
+            </div>
+            <a href="../guide/"><el-icon name="open-book"></el-icon></a>
+        </div>
+        <el-sidebar-menu class="flat"><ul>
+            <li>
+                <a href="../guide/#installation">Installation</a>
+            </li>
+            <li>
+                <a href="../guide/#import">Import</a>
+                <ul>
+                    <li><a href="../guide/#import.browser">Browser</a></li>
+                    <li><a href="../guide/#import.node">Node</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="../guide/#define">Define Models</a>
+            </li>
+            <li>
+                <a href="../guide/#usage-examples">Usage Examples</a>
+            </li>
+            <li>
+                <a href="../guide/#schema-validation">Schema Validation</a>
+                <ul>
+                    <li><a href="../guide/#validation.1-schema-test">1. Schema Test</a></li>
+                    <li><a href="../guide/#validation.2-schema-partial-test">2. Schema Partial Test</a></li>
+                    <li><a href="../guide/#validation.3-schema-validation">3. Schema Validation</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="../guide/#atomic-instance">Atomic Instance</a>
+                <ul>
+                    <li><a href="../guide/#atomic-instance.retrieve-data">Retrieve Data</a></li>
+                    <li><a href="../guide/#atomic-instance.retrieve-json">Retreive JSON</a></li>
+                    <li><a href="../guide/#atomic-instance.atomic-update">Atomic Update</a></li>
+                </ul>
+            </li>
+        </ul></el-sidebar-menu>
+    </div>
+    <div el="overlay">
+    <!-- Overlay when show sidebar -->
+    </div>
+</el-sidebar>
+<el-sidebar-button><el-icon name="menu"></el-icon></el-sidebar-button>
+
+<div id="guide" class="container">
+    <h1 style="padding-top: 2rem;">
+    <a href="{{to_root}}">{ Edictor }</a><br>
+    Guide
+</h1>
+<div class="flex flex-center width-100" style="font-size: 2em;">
+<el-icon name="open-book"></el-icon>
+</div>
+
+    <div id="installation" class="link-padding-top"></div>
+<h2>Installation</h2>
+<p><el-title-code>shell</el-title-code></p>
+<pre><code class="language-shell">$ npm install edictor
+</code></pre>
+
+    <div id="import" class="link-padding-top"></div>
+<h2>Import</h2>
+<p><strong>{ Edictor }</strong> support both Browser &amp; Node environment.</p>
+<div id="import.browser" class="link-padding-top" style="margin-top: -4rem;"></div>
+<h3>Browser (ES6+)</h3>
+<p>There's no <strong>javascript</strong> building tool is expected in browser environment.
+Therefore, all dependencies are included in <code>edictor.js</code>.
+Just copy <code>node_modules/edictor/dist/browser/edictor.js</code> to somewhere
+which can be accessed by browsers. Then <code>import</code> inside <code>&lt;script type=&quot;module&quot;&gt;</code></p>
+<p><el-title-code>html</el-title-code></p>
+<pre><code class="language-html">&lt;script type=&quot;module&quot;&gt;
+import { Model, defineField } from 'url/to/edictor';
+&lt;/script&gt;
+</code></pre>
+<div id="import.node" class="link-padding-top" style="margin-top: -4rem;"></div>
+<h3 style="margin-top: 2rem;">Node (ES6+ & CommonJS)</h3>
+<p><strong>ES Module (Preferred)</strong></p>
+<p><el-title-code>ES6+</el-title-code></p>
+<pre><code class="language-js">import { Model, defineField } from 'edictor';
+</code></pre>
+<p><strong>CommonJS Module</strong></p>
+<p><el-title-code>CommonJS</el-title-code></p>
+<pre><code class="language-js">const edictor = require('edictor');
+// edictor.Model;
+// edictor.defineField; 
+</code></pre>
+
+    <div id="define" class="link-padding-top"></div>
+<h2>Define Models / Schemas</h2>
+<p>To begins, let's try to define a models / schemas for some parts of
+npm's <a href="https://docs.npmjs.com/cli/v9/configuring-npm/package-json/" target=_blank>
+package.json</a>, which is a good example since it has a good documentation and
+complex enough to demonstrate <strong>{Edictor}</strong> APIs.</p>
+<p><code>class Model</code> and <code>defineField()</code> is two main cores APIs to start with.
+They are carfully designed to be readable by themselve. If you know
+<strong>Javascript</strong>, just read one by one line and you will get an idea how
+<strong>{Edictor}</strong> APIs work in no time at all, trust me ! :)</p>
+<p><el-title-code>javascript / es6+</el-title-code></p>
+<pre><code class="language-javascript">/** ES Module */
+import { Model, defineField } from 'edictor';
+
+/** Every defined model class must extended from `Model` */
+class Package extends Model {};
+class People extends Model {};
+
+/** Define reusable `defineField()` as `urlDef` to validates that:
+ * - The value must be a string instance.
+ * - The value is a valid URL by applying value to built-in `URL()`,
+ *   which expect function to throw error if the data is invalid.
+ */
+const urlDef = defineField()
+    .instance('string')
+    .apply((value) =&gt; { new URL(value) })
+
+/** Define `People` schema
+ * - definedField() can be used directly as a schema's field.
+*/
+People.define({
+    name: defineField({required: true})
+        .instance('string'),
+    email: defineField()
+        .instance('string')
+        .regexp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/),
+    url: urlDef // Reuseable `urlDef`
+})
+
+/** Define `Package` schema */
+Package.define({
+    name: defineField({required: true})
+        .instance('string')
+        .assert((value) =&gt; { return value.length &lt;= 214 },
+            &quot;The name must be less than or equal to 214 characters&quot;),
+    version: // https://ihateregex.io/expr/semver/
+        defineField({required: true})
+        .instance('string')
+        .regexp(/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/),
+    homepage: urlDef, // Reuseable `urlDef`
+    author: // Nesting data using `model()`
+        defineField()
+        .model(People),
+    contributors: // Array data using `arrayOf()`
+        defineField({initial: []}) // Set initial data for calling `push()`
+        .arrayOf(People)
+})
+</code></pre>
+<div style="margin-top: 1rem;"></div>
+
+    <div id="usage-examples" class="link-padding-top"
+    style="margin-top: -3rem;">
+<div>
+<h2>Usage Examples</h2>
+<p><el-title-code>Javascript / ES6+</el-title-code></p>
+<pre><code class="language-js">/** Schema Test */
+const result = Package.test({
+    'name': 'edictor',
+    'version': '0.4.0',
+    'homepage': 'https://nitipit.github.io/edictor/'
+})
+
+/** Atomic Instance */
+const package = new Package({
+    'name': 'edictor', // Required field
+})
+
+package['version'] = '0.4.0';
+</code></pre>
+
+    <div id="schema-validation" class="link-padding-top"></div>
+<h2>Schema Validation</h2>
+<div id="validation.1-schema-test" class="link-padding-top"
+    style="margin-top: -4rem;">
+<div>
+<h3>1. Schema Test</h3>
+<p><el-title-code>Typescript declaration</el-titile-code></p>
+<pre><code class="language-ts">class Model {
+    static test(data: Object, option?: ModelOption): ModelTestResult;
+}
+</code></pre>
+<p>Call <code>Model.test(data)</code> to apply this scenario, which will test data
+and return useful information for furthur usage.</p>
+<p><el-title-code>Javascript / ES6+</el-titile-code></p>
+<pre><code class="language-js">const result = Package.test({
+    'name': 'edictor',
+    'version': '0.4.0',
+    'email': 'test@example.com'
+});
+</code></pre>
+<p><el-title-code>result</el-titile-code></p>
+<pre><code class="language-js">{
+    &quot;valid&quot;: {
+        &quot;name&quot;: &quot;edictor&quot;,
+        &quot;version&quot;: &quot;0.4.0&quot;,
+        &quot;contributors&quot;: []
+    },
+    &quot;invalid&quot;: {
+        &quot;email&quot;: &quot;test@example.com&quot;
+    },
+    &quot;error&quot;: {
+        &quot;email&quot;: UndefinedError(...) // UndefinedError Object
+    },
+    &quot;errorMessage&quot;: &quot;Testing contains errors.&quot;
+}
+</code></pre>
+<div id="validation.2-schema-partial-test" class="link-padding-top"
+    style="margin-top: -3rem;">
+<div>
+<h3>2. Schema Partial Test</h3>
+<p><el-title-code>Typescript declaration</el-titile-code></p>
+<pre><code class="language-ts">class Model {
+    static partial(data: Object, option?: ModelOption): ModelTestResult;
+}
+</code></pre>
+<p>Call <code>Model.partial(data)</code> to apply this scenario, which will test only
+fields correspond to input data, or in others words, the schema will ignore
+required/initial fields. This might come in handy when you want to use/reuse only
+some of schema fields to test data.</p>
+<p><el-title-code>Javascript / ES6+</el-titile-code></p>
+<pre><code class="language-js">const result = Package.partial({
+    'version': '0.4.0' // only test on `version` fields
+})
+</code></pre>
+<p><el-title-code>result</el-titile-code></p>
+<pre><code class="language-js">{
+    &quot;valid&quot;: {
+        &quot;version&quot;: &quot;0.4.0&quot;
+    },
+    &quot;invalid&quot;: {},
+    &quot;error&quot;: {}
+}
+</code></pre>
+<div id="validation.3-schema-validation" class="link-padding-top"
+    style="margin-top: -3rem;">
+<div>
+<h3>3. Schema Validation</h3>
+<p><el-title-code>Typescript declaration</el-titile-code></p>
+<pre><code class="language-ts">class Model {
+    /** Expected to throws errors if data is invalid */
+    static validate(data: Object, option?: ModelOption): Object;
+}
+</code></pre>
+<p>Call <code>Model.validate(data)</code> to apply this scenario, which will validate
+data and return valid data. This function expected to throw errors
+if data is invalid.</p>
+<p><el-title-code>Javascript / ES6+</el-titile-code></p>
+<pre><code class="language-js">Package.validate({
+    version: '0.4.0',
+    homepage: 'https://nitipit.github.io/edictor/'
+})
+</code></pre>
+<p><el-title-code>Browser console</el-title-code></p>
+<pre><code class="language-js">Uncaugth ValidateError ...
+</code></pre>
+
+    <div id="atomic-instance" class="link-padding-top"
+    style="margin-top: -3rem;">
+<div>
+<h2>Atomic Instance</h2>
+<p><el-title-code>Typescript declaration</el-titile-code></p>
+<pre><code class="language-ts">class Model {
+    constructor(data?: Object, option?: ModelOption);
+}
+</code></pre>
+<p>Atomic instance can keep data object state and garantees that
+it's always valid at any point of your code. To apply this scenario,
+use <code>new Model(data)</code> to create an atomic instance.</p>
+<p><el-title-code>Javascript / ES6+</el-titile-code></p>
+<pre><code class="language-js">const package = new Package({
+    'name': 'edictor',
+    'version': '0.4.0',
+    'homepage': 'https://nitipit.github.io/edictor/'
+})
+
+package['version'] = '0.4.1';
+
+/** This line will throw errors and new data won't be assigned */
+package['author'] = 'someone';
+</code></pre>
+<div id="atomic-instance.retrieve-data" class="link-padding-top"
+    style="margin-top: -3rem;">
+<div>
+<h3>Retrieve Data Object</h3>
+<p><el-title-code>Javascript / ES6+</el-titile-code></p>
+<pre><code class="language-js">const packageData = package.object();
+</code></pre>
+<div id="atomic-instance.retrieve-json" class="link-padding-top"
+    style="margin-top: -3rem;">
+<div>
+<h3>Retrieve JSON</h3>
+<p><el-title-code>Javascript / ES6+</el-titile-code></p>
+<pre><code class="language-js">const packageJSON = package.json();
+</code></pre>
+<div id="atomic-instance.atomic-update" class="link-padding-top"
+    style="margin-top: -3rem;">
+<div>
+<h3>Atomic Update</h3>
+<p><el-title-code>Typescript declaration</el-titile-code></p>
+<pre><code class="language-ts">class Model {
+    update(data: Object): void;
+}
+</code></pre>
+<p><code>Model().update(data)</code> updates the <code>data</code> into instance
+only if the whole <code>data</code> is valid, in the other hand,
+it will throws errors and reject new data if it's invalid.</p>
+<p><el-title-code>Javascript / ES6+</el-title-code></p>
+<pre><code class="language-js">try {
+    edictor.update({
+        name: &quot;{ Edictor }&quot;,
+        version: &quot;a.b.c&quot; // Validation error
+    })
+} catch (e) {};
+
+edictor.object(); // Return same data without any update.
+</code></pre>
+
+</div>
+
+
+<div style="min-height: 30vh;"></div>
+
+</body>
+</html>
